@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { createTodo } from './actions.js';
+import { addTodoRequest } from './thunks';
 import './NewTodoForm.css';
 
 
@@ -35,7 +35,7 @@ const mapStateToProps = state => ({
 //mapDispatchToProps : 
 // dispatch : allow our function to trigger actions that our redux store will respond to.
 const mapDispatchToProps = dispatch => ({
-    onCreatePressed: text => dispatch(createTodo(text)),
+    onCreatePressed: text => dispatch(addTodoRequest(text)),
 });
 
 //export connected component we defined.
