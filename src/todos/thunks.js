@@ -1,3 +1,7 @@
+// Separation of concerns
+// Components : display data
+// Reducers : manage state
+// Thunks : Side-effect logic
 import {
     createTodo,
     removeTodo,

@@ -3,10 +3,15 @@ import { connect } from 'react-redux';
 import TodoListItem from './TodoListItem';
 import NewTodoForm from './NewTodoForm';
 import './TodoList.css';
-import { isLoading } from './reducers.js';
+import {
+    getTodos,
+    getTodosLoading,
+    getCompletedTodos,
+    getImpcompleteTodos,
+} from './selectors';
 import { completeTodoRequest, loadTodos,removeTodoRequest } from './thunks.js';
 
-const TodoList = ({ todos = [], onRemovePressed, onCompletedPressed, isLoading,startLoadingTodos }) => {
+const TodoList = ({ completedTodos, incompleteTodos, onRemovePressed, onCompletedPressed, isLoading,startLoadingTodos }) => {
     useEffect(() => {
         startLoadingTodos();
     },[]);
@@ -14,18 +19,26 @@ const TodoList = ({ todos = [], onRemovePressed, onCompletedPressed, isLoading,s
     const content = (
         <div className="list-wrapper">
             <NewTodoForm />
-            {todos.map((todo, index) => <TodoListItem key={index} todo={todo}
+            <h3>Incomplete</h3>
+            {incompleteTodos.map((todo, index) => <TodoListItem key={index} todo={todo}
                 onRemovePressed={onRemovePressed}
                 onCompletedPressed={onCompletedPressed} />)}
-        
+            <h3>completed:</h3>
+            {completedTodos.map((todo, index) => <TodoListItem key={index} todo={todo}
+                onRemovePressed={onRemovePressed}
+                onCompletedPressed={onCompletedPressed} />)}
         </div>
     );
     return isLoading ? loadingMessage : content;
 };
+// The mapStateToProps() method is used to render the stored data to the component. allow the component to access information in the global Redux store. 
 const mapStateToProps = state => ({
-    isLoading:state.isLoading,
-    todos: state.todos,
+    isLoading:getTodosLoading(state),
+    completedTodos: getCompletedTodos(state),
+    incompleteTodos:getImpcompleteTodos(state),
 });
+
+// The mapDispatchToProps() method is used to render the action creators with props to the component. allow the component to update the global Redux store.
 const mapDispatchToProps = dispatch => ({
     startLoadingTodos: () => dispatch(loadTodos()),
     onRemovePressed: id => dispatch(removeTodoRequest(id)),

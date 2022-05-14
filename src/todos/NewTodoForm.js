@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { addTodoRequest } from './thunks';
 import './NewTodoForm.css';
-
+import { getTodos } from './selectors';
 
 const NewTodoForm = ({todos,onCreatePressed}) => {
     const [inputValue, setInputValue] = useState('');
@@ -30,7 +30,7 @@ const NewTodoForm = ({todos,onCreatePressed}) => {
 //mapStateToProps : take this state object and return another object containing the pieces
 // of that state that our component needs access to.
 const mapStateToProps = state => ({
-    todos:state.todos,
+    todos:getTodos(state),
 });
 //mapDispatchToProps : 
 // dispatch : allow our function to trigger actions that our redux store will respond to.
